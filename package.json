@@ -1,0 +1,18 @@
+{
+  "name": "com.dropecho.graphview",
+  "displayName": "Dropecho Graph View",
+  "version": "0.1.0",
+  "description": "",
+  "author": "vantreeseba <vantreeseba@gmail.com>",
+  "repository": "github:dropecho/unity_graph_view",
+  "license": "MIT",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+  "keywords": [
+    "Graph",
+    "Graph View",
+    "UI Elements",
+    "UI",
+    "UI Toolkit"
+  ]
+}
