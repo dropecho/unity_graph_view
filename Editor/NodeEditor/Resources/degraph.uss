@@ -1,0 +1,13 @@
+GridBackground {
+  --grid-background-color: #282828;
+  --line-color: rgba(193,196,192,0.1);
+  --thick-line-color: rgba(193,196,192,0.2);
+  --spacing: 50;
+  --thick-lines: 300;
+}
+
+.graphView .unity-toolbar .unity-base-field {
+  display: flex;
+  flex: 1;
+  max-width: 20%;
+}
