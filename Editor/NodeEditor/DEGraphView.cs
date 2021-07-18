@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -21,6 +22,22 @@ public class DEGraphView : GraphView {
     var grid = new GridBackground();
     Insert(0, grid);
     grid.StretchToParentSize();
+
+    this.serializeGraphElements += (els) => {
+      var first = els.FirstOrDefault();
+      if (first != null) {
+        var data = first.GetFieldValue("data");
+        return JsonUtility.ToJson(data);
+      }
+
+      return "im a string";
+    };
+
+    this.unserializeAndPaste += (name, data) => {
+      Debug.Log("PASTING OR SOMETHING! " + name + " : " + data);
+      var obj = JsonUtility.FromJson<NodeData>(data);
+      AddNode(obj);
+    };
   }
 
   public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter adapter) {

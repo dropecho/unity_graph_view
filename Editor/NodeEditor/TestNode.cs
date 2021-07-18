@@ -3,7 +3,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [Serializable]
-public abstract class NodeData {
+public class NodeData {
   [HideInInspector]
   public string guid;
   [HideInInspector]
@@ -22,6 +22,15 @@ public class TestClass : NodeData {
 }
 
 public class TestClass2 : NodeData {
+  [InputPort, NonSerialized]
+  public float someNumber;
+  [InputPort(capacity: Port.Capacity.Multi), NonSerialized]
+  public float someNumber2;
+  [OutputPort, NonSerialized]
+  public float someoutput3;
+}
+
+public class Banana : NodeData {
   [InputPort, NonSerialized]
   public float someNumber;
   [InputPort(capacity: Port.Capacity.Multi), NonSerialized]

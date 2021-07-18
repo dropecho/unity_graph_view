@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Dropecho.Graph.Editor;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
@@ -9,6 +10,7 @@ using UnityEngine.UIElements;
 public class DEGraphEditorWindow : EditorWindow {
   private DEGraphView _graphView;
   private DEGraphData _graphData;
+  private DefaultSearchProvider _searchProvider;
 
   [MenuItem("Dropecho/Graph View")]
   public static void Open() => GetWindow<DEGraphEditorWindow>();
@@ -17,10 +19,27 @@ public class DEGraphEditorWindow : EditorWindow {
     var graph = RenderGraphView();
     rootVisualElement.Add(graph);
     graph.Add(RenderToolbar());
+
+    _searchProvider = ScriptableObject.CreateInstance<DefaultSearchProvider>();
+    _searchProvider.name = "What is happening";
+
+    graph.RegisterCallback<KeyUpEvent>(OnKeyUp);
+  }
+
+  void OnKeyUp(KeyUpEvent evt) {
+    if (evt.keyCode == KeyCode.Space) {
+      OpenSearch();
+    }
   }
 
   void OnDisable() {
     rootVisualElement.Clear();
+  }
+
+  void OpenSearch() {
+    var context = new SearchWindowContext(new Vector2(150, 150), 128, 128);
+    _searchProvider.view = _graphView;
+    SearchWindow.Open(context, _searchProvider);
   }
 
   Toolbar RenderToolbar() {
@@ -46,7 +65,8 @@ public class DEGraphEditorWindow : EditorWindow {
       menu.menu.AppendAction($"Create {niceName}", (act) => _graphView.AddNode(nt));
     }
     toolbar.Add(dropdown);
-    toolbar.Add(new Button(() => SaveData()) { text = "Save" });
+    toolbar.Add(new Button(SaveData) { text = "Save" });
+    toolbar.Add(new Button(OpenSearch) { text = "Search" });
     // toolbar.Add(new Button(() => ClearGraph()) { text = "CLEAR" });
     toolbar.Add(menu);
 
